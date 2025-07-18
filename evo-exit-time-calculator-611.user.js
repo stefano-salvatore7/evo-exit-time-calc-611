@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name          EVO Exit Time Calculator (6h 11m)
 // @namespace     https://unibo.it/
-// @version       1.03
-// @description   Calcola e mostra l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 1 minuto di lavoro netto, a cui si aggiunge la pausa rilevata (o 10 minuti predefiniti). Sostituisce l'orario esistente nella cella. Il bottone appare solo sulla pagina "Cartellino" accanto ad "Ora del Giorno".
+// @version       1.04
+// @description   Calcola e mostra l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 1 minuto di lavoro netto, a cui si aggiunge la pausa rilevata (o 10 minuti predefiniti). Sostituisce l'orario esistente nella cella. Il bottone "6 ore e 11" appare solo sulla pagina "Cartellino" accanto ad "Ora del Giorno".
 // @author        Stefano
 // @match         https://personale-unibo.hrgpi.it/*
 // @grant         none
@@ -40,7 +40,7 @@
         event.stopPropagation();
         event.preventDefault(); 
 
-        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.03) ---"); // Modificato versione
+        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.04) ---"); // Modificato versione
         
         const oggi = new Date();
         const giornoOggi = String(oggi.getDate()); 
@@ -205,7 +205,7 @@
             clearInterval(waitForPageElements); 
 
             calcolaSeiUndiciButton = document.createElement("button");
-            calcolaSeiUndiciButton.textContent = "Ora 6h 11m"; 
+            calcolaSeiUndiciButton.textContent = "6 ore e 11"; // MODIFICATO QUI: Testo del bottone
             
             Object.assign(calcolaSeiUndiciButton.style, {
                 padding: "10px",
@@ -223,7 +223,7 @@
             calcolaSeiUndiciButton.onclick = calcolaPerSeiOreUndici;
             
             document.body.appendChild(calcolaSeiUndiciButton);
-            console.log("Bottone 'Ora 6h 11m' creato e aggiunto temporaneamente al body (solo su pagina Cartellino).");
+            console.log("Bottone '6 ore e 11' creato e aggiunto temporaneamente al body (solo su pagina Cartellino).");
 
             startPositioningSixElevenButton();
         }
@@ -241,7 +241,7 @@
                 }
 
                 oraDelGiornoButton.parentNode.insertBefore(calcolaSeiUndiciButton, oraDelGiornoButton.nextSibling);
-                console.log("Bottone 'Ora 6h 11m' riposizionato accanto al bottone 'Ora del Giorno'.");
+                console.log("Bottone '6 ore e 11' riposizionato accanto al bottone 'Ora del Giorno'.");
                 
                 calcolaSeiUndiciButton.onclick = calcolaPerSeiOreUndici;
                 console.log("Evento onclick ricollegato al bottone dopo il riposizionamento.");
