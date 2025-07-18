@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name          EVO Exit Time Calculator (6h 11m)
 // @namespace     https://unibo.it/
-// @version       1.01
-// @description   Calcola l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 11 minuti (tempo lordo dal timbro di entrata all'uscita), includendo la pausa tra timbrature e posiziona il bottone accanto ad "Ora del Giorno". Appare solo sulla pagina "Cartellino". Aggiunge una pausa predefinita di 10 minuti per il tooltip.
+// @version       1.02
+// @description   Calcola e mostra l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 11 minuti (tempo lordo dal timbro di entrata all'uscita). Sostituisce l'orario esistente nella cella. Il bottone appare solo sulla pagina "Cartellino" accanto ad "Ora del Giorno". Aggiunge una pausa predefinita di 10 minuti per il tooltip.
 // @author        Stefano
 // @match         https://personale-unibo.hrgpi.it/*
 // @grant         none
@@ -40,7 +40,7 @@
         event.stopPropagation();
         event.preventDefault(); 
 
-        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.01) ---");
+        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.02) ---"); // Modificato versione
         
         const oggi = new Date();
         const giornoOggi = String(oggi.getDate()); 
@@ -84,9 +84,8 @@
                 let tipo = null;
                 let orario = null;
                 
-                // Parsing per gestire E HH:mm e E[HH:mm]
-                const matchStandard = orarioTesto.match(/^(E|U)\s(\d{2}:\d{2})$/); // Es: "E 08:00"
-                const matchTelelavoro = orarioTesto.match(/^(E|U)\[(\d{2}:\d{2})\]$/); // Es: "E[08:00]"
+                const matchStandard = orarioTesto.match(/^(E|U)\s(\d{2}:\d{2})$/);
+                const matchTelelavoro = orarioTesto.match(/^(E|U)\[(\d{2}:\d{2})\]$/);
 
                 if (matchStandard) {
                     tipo = matchStandard[1];
@@ -125,15 +124,13 @@
         const entrataIniziale = entrataInizialeObj.orario;
         console.log(`Entrata iniziale rilevata: ${entrataIniziale}`);
 
-        // La costante per le 6 ore e 11 minuti (tempo lordo)
         const MINUTI_LORDI_6H_11M = 371; // 6 * 60 + 11 = 371 minuti
 
-        // La logica per la pausa viene mantenuta solo per scopi informativi nel tooltip
         let pausaInizio = null;
         let pausaFine = null;
         let lastUIndex = -1;
-        const PAUSA_MINIMA_PREDEFINITA = 10; // 10 minuti di pausa predefinita
-        let pausaConsiderataPerTooltip = 0; // Minuti di pausa che verranno visualizzati nel tooltip
+        const PAUSA_MINIMA_PREDEFINITA = 10; 
+        let pausaConsiderataPerTooltip = 0; 
 
         for (let i = badgeList.length - 1; i >= 0; i--) {
             if (badgeList[i].tipo === "U") {
@@ -154,7 +151,7 @@
 
         if (pausaInizio && pausaFine) {
             const minutiPausaReale = timeToMinutes(pausaFine) - timeToMinutes(pausaInizio);
-            if (minutiPausaReale > 0 && minutiPausaReale < 180) { // Limite di 3 ore per la pausa
+            if (minutiPausaReale > 0 && minutiPausaReale < 180) { 
                 pausaConsiderataPerTooltip = Math.max(PAUSA_MINIMA_PREDEFINITA, minutiPausaReale);
             } else {
                 pausaConsiderataPerTooltip = PAUSA_MINIMA_PREDEFINITA;
@@ -163,10 +160,8 @@
             pausaConsiderataPerTooltip = PAUSA_MINIMA_PREDEFINITA;
         }
         console.log(`Pausa riconosciuta per tooltip/debug: ${pausaConsiderataPerTooltip} minuti.`);
-        // FINE LOGICA PAUSA PER TOOLTIP
-
+        
         const entrataInizialeMinuti = timeToMinutes(entrataIniziale);
-        // L'uscita prevista è semplicemente l'entrata + i minuti lavorativi totali fissi (6h 11m)
         const uscitaPrevistaMinuti = entrataInizialeMinuti + MINUTI_LORDI_6H_11M;
         const uscitaPrevista = minutesToTime(uscitaPrevistaMinuti);
 
@@ -175,19 +170,10 @@
         const celle = righeDelGiorno[0].querySelectorAll("td");
         if (celle.length >= 8) {
             const cellaOrario = celle[7]; 
-            let existingText = cellaOrario.textContent;
-            let newText = ` / ${uscitaPrevista} (6h11)`;
-            
-            // Aggiorna il testo esistente per evitare duplicati e aggiornare il valore
-            if (existingText.includes(" (6h11)")) {
-                cellaOrario.textContent = existingText.replace(/ \/ \d{2}:\d{2} \(6h11\)/, newText);
-            } else {
-                cellaOrario.textContent = existingText + newText;
-            }
-
+            // MODIFICA QUI: Sovrascrivi il contenuto invece di appendere/sostituire parzialmente
+            cellaOrario.textContent = uscitaPrevista; 
             cellaOrario.style.color = "purple"; 
             cellaOrario.style.fontWeight = "bold"; 
-            // Aggiorna il tooltip usando la pausa riconosciuta, anche se non usata nel calcolo finale
             cellaOrario.title = `Entrata: ${entrataIniziale} + ${MINUTI_LORDI_6H_11M} minuti (totali, inclusa pausa). Pausa rilevata: ${pausaConsiderataPerTooltip} minuti.`;
             console.log(`Orario ${uscitaPrevista} (6h 11m) inserito nella cella.`);
         } else {
@@ -213,7 +199,7 @@
             
             Object.assign(calcolaSeiUndiciButton.style, {
                 padding: "10px",
-                backgroundColor: "#8c00b0", // Un colore diverso (viola) per distinguerlo
+                backgroundColor: "#8c00b0", 
                 color: "white",
                 border: "none",
                 borderRadius: "6px",
@@ -235,7 +221,6 @@
 
     function startPositioningSixElevenButton() {
         const waitForOraDelGiornoButton = setInterval(() => {
-            // Cerchiamo il bottone "Ora del Giorno" del primo script
             const oraDelGiornoButton = Array.from(document.querySelectorAll('button')).find(btn => btn.textContent.includes('Ora del Giorno'));
             
             if (calcolaSeiUndiciButton && oraDelGiornoButton) {
@@ -245,7 +230,6 @@
                     calcolaSeiUndiciButton.parentNode.removeChild(calcolaSeiUndiciButton);
                 }
 
-                // Inseriamo il nuovo bottone dopo il bottone "Ora del Giorno"
                 oraDelGiornoButton.parentNode.insertBefore(calcolaSeiUndiciButton, oraDelGiornoButton.nextSibling);
                 console.log("Bottone 'Ora 6h 11m' riposizionato accanto al bottone 'Ora del Giorno'.");
                 
