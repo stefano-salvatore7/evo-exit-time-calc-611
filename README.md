@@ -2,7 +2,7 @@
 
 Questo script Tampermonkey/Greasemonkey è una versione complementare dell'EVO Exit Time Calculator, specificamente progettata per calcolare l'orario di uscita basandosi su un monte ore di **6 ore e 1 minuto di lavoro netto**, a cui viene aggiunta la pausa. È destinato al sistema di gestione delle presenze EVO (usato su `https://personale-unibo.hrgpi.it/`). Calcola automaticamente l'orario di uscita previsto per la giornata corrente.
 
-**(Versione Script: 1.08)**
+**(Versione Script: 1.09)**
 
 ## Caratteristiche
 
@@ -13,7 +13,7 @@ Questo script Tampermonkey/Greasemonkey è una versione complementare dell'EVO E
 * **Gestione Timbrature Flessibile:** Supporta sia il formato standard `E HH:mm` / `U HH:mm` che il formato "Telelavoro" `E[HH:mm]` / `U[HH:mm]`.
 * **Iniezione Diretta e Sovrascrittura con Stile:** Inserisce l'orario calcolato direttamente nella tabella delle timbrature del giorno, **visualizzandolo come una "pillola" con sfondo viola e testo bianco**, sovrascrivendo qualsiasi orario precedentemente visualizzato da questo script o dall'EVO Exit Time Calculator (principale).
 * **Posizionamento Intuitivo e Robusto (Più Rapido):** Il bottone "**6 ore e 11**" appare solo sulla pagina "Cartellino".
-    * Si posizionerà rapidamente accanto al bottone "**Aggiorna**" (quello di sistema) come posizione iniziale o fallback.
+    * Si posizionerà **rapidamente** accanto al bottone "**Aggiorna**" (quello di sistema) come posizione iniziale o fallback.
     * Se il bottone "**Ora del Giorno**" (dello script principale) viene successivamente rilevato, il bottone "**6 ore e 11**" si sposterà automaticamente e si posizionerà accanto a quest'ultimo, garantendo la posizione preferita.
 * **Apparizione Condizionale:** Il bottone appare **esclusivamente sulla pagina "Cartellino"** per garantire il corretto funzionamento e evitare la comparsa su altre sezioni del portale EVO.
 
