@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          EVO Exit Time Calculator (6h 11m)
 // @namespace     https://unibo.it/
-// @version       1.06
+// @version       1.07
 // @description   Calcola e mostra l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 1 minuto di lavoro netto, a cui si aggiunge la pausa rilevata (o 10 minuti predefiniti). L'orario viene visualizzato in una "pillola" viola con testo bianco. Sostituisce l'orario esistente nella cella. Il bottone "6 ore e 11" appare solo sulla pagina "Cartellino" e tenta di posizionarsi accanto ad "Ora del Giorno" o, in fallback, accanto ad "Aggiorna".
 // @author        Stefano
 // @match         https://personale-unibo.hrgpi.it/*
@@ -40,7 +40,7 @@
         event.stopPropagation();
         event.preventDefault(); 
 
-        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.06) ---"); // Modificato versione
+        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.07) ---"); // Modificato versione
         
         const oggi = new Date();
         const giornoOggi = String(oggi.getDate()); 
@@ -242,7 +242,8 @@
 
     function startPositioningSixElevenButton() {
         let retryCount = 0;
-        const maxRetries = 20; // Tenta per 10 secondi (20 * 500ms)
+        const maxRetries = 20; 
+        const intervalDelay = 100; // Ridotto a 100ms per tentativi più rapidi
 
         const waitForOraDelGiornoButton = setInterval(() => {
             const oraDelGiornoButton = Array.from(document.querySelectorAll('button')).find(btn => btn.textContent.includes('Ora del Giorno'));
@@ -283,7 +284,7 @@
                 clearInterval(waitForOraDelGiornoButton); // Button disappeared, clear interval
                 console.warn("Bottone '6 ore e 11' non trovato, interrompo il posizionamento.");
             }
-        }, 500); 
+        }, intervalDelay); // Usa il delay ridotto qui
     }
 
 })();
