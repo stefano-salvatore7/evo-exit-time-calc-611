@@ -2,7 +2,7 @@
 
 Questo script Tampermonkey/Greasemonkey è una versione complementare dell'EVO Exit Time Calculator, specificamente progettata per calcolare l'orario di uscita basandosi su un monte ore di **6 ore e 1 minuto di lavoro netto**, a cui viene aggiunta la pausa. È destinato al sistema di gestione delle presenze EVO (usato su `https://personale-unibo.hrgpi.it/`). Calcola automaticamente l'orario di uscita previsto per la giornata corrente.
 
-**(Versione Script: 1.06)**
+**(Versione Script: 1.07)**
 
 ## Caratteristiche
 
@@ -12,9 +12,9 @@ Questo script Tampermonkey/Greasemonkey è una versione complementare dell'EVO E
     * Se non ci sono timbrature di pausa (U/E) o la pausa rilevata non è valida (es. negativa o troppo lunga), viene applicata una pausa predefinita di 10 minuti.
 * **Gestione Timbrature Flessibile:** Supporta sia il formato standard `E HH:mm` / `U HH:mm` che il formato "Telelavoro" `E[HH:mm]` / `U[HH:mm]`.
 * **Iniezione Diretta e Sovrascrittura con Stile:** Inserisce l'orario calcolato direttamente nella tabella delle timbrature del giorno, **visualizzandolo come una "pillola" con sfondo viola e testo bianco**, sovrascrivendo qualsiasi orario precedentemente visualizzato da questo script o dall'EVO Exit Time Calculator (principale).
-* **Posizionamento Intuitivo e Robusto:** Il bottone "**6 ore e 11**" appare solo sulla pagina "Cartellino".
+* **Posizionamento Intuitivo e Robusto (Più Rapido):** Il bottone "**6 ore e 11**" appare solo sulla pagina "Cartellino".
     * Tenta di posizionarsi strategicamente accanto al bottone "**Ora del Giorno**" (se lo script principale è installato e attivo).
-    * Se il bottone "Ora del Giorno" non viene trovato entro pochi secondi, il bottone "**6 ore e 11**" si riposizionerà automaticamente accanto al bottone "**Aggiorna**" (quello di sistema) per garantire che sia sempre in una posizione comoda e visibile.
+    * Se il bottone "Ora del Giorno" non viene trovato entro 2 secondi, il bottone "**6 ore e 11**" si riposizionerà automaticamente accanto al bottone "**Aggiorna**" (quello di sistema) per garantire che sia sempre in una posizione comoda e visibile.
 * **Apparizione Condizionale:** Il bottone appare **esclusivamente sulla pagina "Cartellino"** per garantire il corretto funzionamento e evitare la comparsa su altre sezioni del portale EVO.
 
 ## Installazione e Aggiornamenti Automatici
@@ -83,7 +83,3 @@ Se desideri contribuire a migliorare questo script, sentiti libero di aprire una
 ## Log delle Versioni
 
 Per un riepilogo delle modifiche e delle funzionalità introdotte in ogni versione dello script, consulta il file [CHANGELOG.md](CHANGELOG.md) nel repository.
-
----
-
-*Sviluppato da Stefano con l'assistenza di Gemini.*
