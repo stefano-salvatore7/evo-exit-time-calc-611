@@ -2,7 +2,7 @@
 
 Questo script Tampermonkey/Greasemonkey è una versione complementare dell'EVO Exit Time Calculator, specificamente progettata per calcolare l'orario di uscita basandosi su un monte ore di **6 ore e 1 minuto di lavoro netto**, a cui viene aggiunta la pausa. È destinato al sistema di gestione delle presenze EVO (usato su `https://personale-unibo.hrgpi.it/`). Calcola automaticamente l'orario di uscita previsto per la giornata corrente.
 
-**(Versione Script: 1.04)**
+**(Versione Script: 1.05)**
 
 ## Caratteristiche
 
@@ -11,7 +11,7 @@ Questo script Tampermonkey/Greasemonkey è una versione complementare dell'EVO E
     * Se vengono rilevate timbrature di uscita (`U`) e rientro (`E`) che definiscono una pausa valida (tra 1 e 179 minuti), viene utilizzata la durata effettiva di tale pausa.
     * Se non ci sono timbrature di pausa (U/E) o la pausa rilevata non è valida (es. negativa o troppo lunga), viene applicata una pausa predefinita di 10 minuti.
 * **Gestione Timbrature Flessibile:** Supporta sia il formato standard `E HH:mm` / `U HH:mm` che il formato "Telelavoro" `E[HH:mm]` / `U[HH:mm]`.
-* **Iniezione Diretta e Sovrascrittura:** Inserisce l'orario calcolato direttamente nella tabella delle timbrature del giorno (in viola), **sovrascrivendo qualsiasi orario precedentemente visualizzato** da questo script o dall'EVO Exit Time Calculator (principale).
+* **Iniezione Diretta e Sovrascrittura con Stile:** Inserisce l'orario calcolato direttamente nella tabella delle timbrature del giorno, **visualizzandolo come una "pillola" con sfondo viola e testo bianco**, sovrascrivendo qualsiasi orario precedentemente visualizzato da questo script o dall'EVO Exit Time Calculator (principale).
 * **Posizionamento Intuitivo:** Il bottone "**6 ore e 11**" è posizionato strategicamente accanto al bottone "**Ora del Giorno**" (dell'altro script, se presente).
 * **Apparizione Condizionale:** Il bottone appare **esclusivamente sulla pagina "Cartellino"** per garantire il corretto funzionamento e evitare la comparsa su altre sezioni del portale EVO.
 
@@ -73,7 +73,7 @@ Una volta installato, lo script si attiverà automaticamente quando visiterai la
 
 1.  Naviga alla pagina delle timbrature (assicurati che sia la pagina "Cartellino").
 2.  Se hai installato anche l'altro script, vedrai il bottone "**Ora del Giorno**". Accanto a questo, troverai il nuovo bottone "**6 ore e 11**".
-3.  Clicca su "**6 ore e 11**" per visualizzare l'orario di uscita calcolato per il giorno corrente (per 6h 01m di netto + pausa) nella tabella. Verrà visualizzato solo questo orario in viola. Se un orario calcolato per 7h 12m era presente, verrà sostituito.
+3.  Clicca su "**6 ore e 11**" per visualizzare l'orario di uscita calcolato per il giorno corrente (per 6h 01m di netto + pausa) nella tabella. Verrà visualizzato solo questo orario in una "pillola" viola. Se un orario calcolato per 7h 12m era presente, verrà sostituito.
 
 ## Contributi (Facoltativo)
 
