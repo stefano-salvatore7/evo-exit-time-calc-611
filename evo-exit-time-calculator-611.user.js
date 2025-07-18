@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name          EVO Exit Time Calculator (6h 11m)
 // @namespace     https://unibo.it/
-// @version       1.02
-// @description   Calcola e mostra l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 11 minuti (tempo lordo dal timbro di entrata all'uscita). Sostituisce l'orario esistente nella cella. Il bottone appare solo sulla pagina "Cartellino" accanto ad "Ora del Giorno". Aggiunge una pausa predefinita di 10 minuti per il tooltip.
+// @version       1.03
+// @description   Calcola e mostra l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 1 minuto di lavoro netto, a cui si aggiunge la pausa rilevata (o 10 minuti predefiniti). Sostituisce l'orario esistente nella cella. Il bottone appare solo sulla pagina "Cartellino" accanto ad "Ora del Giorno".
 // @author        Stefano
 // @match         https://personale-unibo.hrgpi.it/*
 // @grant         none
@@ -40,7 +40,7 @@
         event.stopPropagation();
         event.preventDefault(); 
 
-        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.02) ---"); // Modificato versione
+        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.03) ---"); // Modificato versione
         
         const oggi = new Date();
         const giornoOggi = String(oggi.getDate()); 
@@ -124,13 +124,15 @@
         const entrataIniziale = entrataInizialeObj.orario;
         console.log(`Entrata iniziale rilevata: ${entrataIniziale}`);
 
-        const MINUTI_LORDI_6H_11M = 371; // 6 * 60 + 11 = 371 minuti
+        // Base di lavoro NETTA: 6 ore e 1 minuto (361 minuti)
+        const MINUTI_LAVORATIVI_NETTI_6H_01M = 361; 
 
+        // Logica per la pausa
         let pausaInizio = null;
         let pausaFine = null;
         let lastUIndex = -1;
-        const PAUSA_MINIMA_PREDEFINITA = 10; 
-        let pausaConsiderataPerTooltip = 0; 
+        const PAUSA_MINIMA_PREDEFINITA = 10; // 10 minuti di pausa predefinita
+        let pausaConsiderata = 0; // Questa sarà la pausa che verrà aggiunta al lavoro netto
 
         for (let i = badgeList.length - 1; i >= 0; i--) {
             if (badgeList[i].tipo === "U") {
@@ -151,30 +153,38 @@
 
         if (pausaInizio && pausaFine) {
             const minutiPausaReale = timeToMinutes(pausaFine) - timeToMinutes(pausaInizio);
+            // Se la pausa reale è valida (tra 1 e 179 minuti), usa la reale
             if (minutiPausaReale > 0 && minutiPausaReale < 180) { 
-                pausaConsiderataPerTooltip = Math.max(PAUSA_MINIMA_PREDEFINITA, minutiPausaReale);
+                pausaConsiderata = minutiPausaReale;
+                console.log(`Pausa reale rilevata e considerata: ${pausaConsiderata} minuti.`);
             } else {
-                pausaConsiderataPerTooltip = PAUSA_MINIMA_PREDEFINITA;
+                // Se la pausa reale non è valida (es. negativa o troppo lunga), usa la predefinita
+                pausaConsiderata = PAUSA_MINIMA_PREDEFINITA;
+                console.log(`Pausa reale non valida o eccessiva. Usando pausa predefinita: ${pausaConsiderata} minuti.`);
             }
         } else {
-            pausaConsiderataPerTooltip = PAUSA_MINIMA_PREDEFINITA;
+            // Se non ci sono timbrature U-E valide, usa la pausa minima predefinita
+            pausaConsiderata = PAUSA_MINIMA_PREDEFINITA;
+            console.log(`Nessuna pausa U-E valida trovata, usando pausa predefinita: ${pausaConsiderata} minuti.`);
         }
-        console.log(`Pausa riconosciuta per tooltip/debug: ${pausaConsiderataPerTooltip} minuti.`);
         
+        // Calcola i minuti lavorativi totali aggiungendo la pausa considerata al lavoro netto
+        const minutiLavorativiTotali = MINUTI_LAVORATIVI_NETTI_6H_01M + pausaConsiderata;
+
         const entrataInizialeMinuti = timeToMinutes(entrataIniziale);
-        const uscitaPrevistaMinuti = entrataInizialeMinuti + MINUTI_LORDI_6H_11M;
+        const uscitaPrevistaMinuti = entrataInizialeMinuti + minutiLavorativiTotali;
         const uscitaPrevista = minutesToTime(uscitaPrevistaMinuti);
 
-        console.log(`Calcolo finale (6h 11m): ${entrataIniziale} (entrata) + ${MINUTI_LORDI_6H_11M} minuti (tempo lordo) = ${uscitaPrevista}`);
+        console.log(`Calcolo finale (6h 11m): ${entrataIniziale} (entrata) + ${MINUTI_LAVORATIVI_NETTI_6H_01M} (lavoro netto) + ${pausaConsiderata} (pausa) = ${uscitaPrevista}`);
 
         const celle = righeDelGiorno[0].querySelectorAll("td");
         if (celle.length >= 8) {
             const cellaOrario = celle[7]; 
-            // MODIFICA QUI: Sovrascrivi il contenuto invece di appendere/sostituire parzialmente
+            // Sovrascrivi il contenuto
             cellaOrario.textContent = uscitaPrevista; 
             cellaOrario.style.color = "purple"; 
             cellaOrario.style.fontWeight = "bold"; 
-            cellaOrario.title = `Entrata: ${entrataIniziale} + ${MINUTI_LORDI_6H_11M} minuti (totali, inclusa pausa). Pausa rilevata: ${pausaConsiderataPerTooltip} minuti.`;
+            cellaOrario.title = `Entrata: ${entrataIniziale} + ${MINUTI_LAVORATIVI_NETTI_6H_01M} minuti (netti) + ${pausaConsiderata} minuti (pausa) = ${uscitaPrevista}`;
             console.log(`Orario ${uscitaPrevista} (6h 11m) inserito nella cella.`);
         } else {
             console.warn("⚠️ Non ci sono abbastanza celle nella prima riga per inserire l'orario di uscita (6h 11m).");
