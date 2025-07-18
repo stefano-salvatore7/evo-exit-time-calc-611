@@ -2,6 +2,14 @@
 
 ---
 
+**Versione 1.03**
+* **Data di Rilascio:** 18 Luglio 2025
+* **Autore:** Stefano
+* **Modifiche:** **Ricalibrato il calcolo dell'orario di uscita per 6h 11m.** Il monte ore base è ora di **6 ore e 1 minuto di lavoro netto**. A questo si aggiunge la pausa rilevata (se timbrature U/E presenti e valide) oppure una pausa predefinita di 10 minuti (se U/E assenti o pausa non valida). Questo risolve l'errore precedente dove la pausa veniva aggiunta in modo errato o ignorata.
+    * Esempio: Entrata 7:30 + 6h 01m (netto) + 17m (pausa U 13:23 E 13:40) = Uscita 13:48.
+
+---
+
 **Versione 1.02**
 * **Data di Rilascio:** 18 Luglio 2025
 * **Autore:** Stefano
