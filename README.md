@@ -1,1 +1,82 @@
-# evo-exit-time-calc-611
+# EVO Exit Time Calculator (6h 11m)
+
+Questo script Tampermonkey/Greasemonkey è una versione complementare dell'EVO Exit Time Calculator, specificamente progettata per calcolare l'orario di uscita basandosi su un monte ore di **6 ore e 11 minuti** giornaliere. È destinato al sistema di gestione delle presenze EVO (usato su `https://personale-unibo.hrgpi.it/`). Calcola automaticamente l'orario di uscita previsto per la giornata corrente, tenendo conto delle timbrature e dell'eventuale pausa.
+
+**(Versione Script: 1.00)**
+
+## Caratteristiche
+
+* **Calcolo Orario di Uscita (6h 11m):** Determina l'orario di uscita necessario per completare le **6 ore e 11 minuti** di lavoro (371 minuti totali).
+* **Gestione Timbrature Flessibile:** Supporta sia il formato standard `E HH:mm` / `U HH:mm` che il formato "Telelavoro" `E[HH:mm]` / `U[HH:mm]`.
+* **Gestione Pausa Pranzo:** Calcola e include nel totale lavorato la durata della pausa pranzo (ultima "U" seguita dalla prima "E"). Aggiunge una pausa predefinita di 10 minuti se non rilevata o troppo breve (utilizza il valore maggiore tra la pausa effettiva e i 10 minuti).
+* **Visualizzazione Chiarificata:** Inserisce l'orario calcolato nella tabella delle timbrature del giorno, affiancato all'orario per le 7h 12m (se l'altro script è attivo), con un'etichetta `(6h11)` e un colore diverso.
+* **Posizionamento Intuitivo:** Il bottone "**Ora 6h 11m**" è posizionato strategicamente accanto al bottone "**Ora del Giorno**" (dell'altro script, se presente).
+* **Apparizione Condizionale:** Il bottone appare **esclusivamente sulla pagina "Cartellino"** per garantire il corretto funzionamento e evitare la comparsa su altre sezioni del portale EVO.
+
+## Installazione e Aggiornamenti Automatici
+
+Per installare lo script e assicurarti che si aggiorni automaticamente dal repository GitHub, segui i passaggi per il tuo browser:
+
+### 1. Installare l'estensione Tampermonkey
+
+Se non l'hai già fatto, installa l'estensione Tampermonkey nel tuo browser:
+
+* **[Tampermonkey per Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)**
+* **[Tampermonkey per Edge](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpbldmmepgdkmfapfmccmocdkf)**
+* **[Tampermonkey per Firefox](https://addons.mozilla.org/it/firefox/addon/tampermonkey/)** (o Greasemonkey se preferisci)
+
+### 2. Configurazione del Browser (Importante!)
+
+Per consentire l'esecuzione corretta dello script, potrebbero essere necessari alcuni passaggi di configurazione nel tuo browser:
+
+#### Per Google Chrome:
+
+1.  Apri Chrome e digita `chrome://extensions/` nella barra degli indirizzi, poi premi Invio.
+2.  In alto a destra, attiva la **"Modalità sviluppatore"** (interruttore).
+3.  Individua Tampermonkey nell'elenco delle estensioni.
+4.  Clicca su **"Dettagli"** sotto Tampermonkey.
+5.  Assicurati che l'opzione **"Consenti script utente"** sia attiva.
+6.  Assicurati che l'opzione **"Consenti l'accesso agli URL del file"** sia attiva.
+
+#### Per Microsoft Edge:
+
+1.  Apri Edge e digita `edge://extensions/` nella barra degli indirizzi, poi premi Invio.
+2.  In alto a destra, attiva la **"Modalità sviluppatore"** (interruttore). Potrebbe comparire un avviso di sicurezza nella parte superiore del browser; è normale quando si usa questa modalità.
+3.  Individua Tampermonkey nell'elenco delle estensioni.
+4.  Clicca su **"Dettagli"** sotto Tampermonkey.
+5.  Assicurati che l'opzione **"Consenti estensioni da altri archivi"** (o "Allow extensions from other stores", se il browser è in inglese) sia attiva.
+6.  **Assicurati che l'opzione "Consenti l'accesso agli URL del file" sia attiva.**
+
+### 3. Installazione dello Script per Aggiornamenti Automatici
+
+Ora che il tuo browser è configurato, puoi installare lo script:
+
+[**Clicca qui per installare/aggiornare EVO Exit Time Calculator (6h 11m)**](LINK_RAW_AL_TUO_NUOVO_SCRIPT_SU_GITHUB)
+
+* **Importante:** Sostituisci `LINK_RAW_AL_TUO_NUOVO_SCRIPT_SU_GITHUB` con l'URL RAW effettivo del file `evo-exit-time-calc-611.user.js` nel tuo nuovo repository.
+* Dopo aver cliccato, Tampermonkey (o Greasemonkey) ti mostrerà il codice dello script e ti chiederà di **"Installa"** (se è la prima volta) o **"Aggiorna"** (se stai aggiornando una versione precedente). Conferma l'azione.
+
+### 4. Verifica Aggiornamenti Automatici (Tampermonkey)
+
+Una volta installato tramite il link RAW, Tampermonkey dovrebbe gestire automaticamente gli aggiornamenti. Puoi verificare le impostazioni:
+
+* Clicca sull'icona di Tampermonkey nel tuo browser e seleziona **"Dashboard"**.
+* Trova "EVO Exit Time Calculator (6h 11m)" nell'elenco.
+* Verifica che la casella "Controlla aggiornamenti" sia spuntata. L'URL di aggiornamento dovrebbe essere corretto (quello RAW che hai usato per l'installazione).
+* Tampermonkey controllerà periodicamente il repository per nuove versioni e ti notificherà se è disponibile un aggiornamento. Puoi anche forzare un controllo cliccando sull'icona delle frecce circolari (Aggiorna) accanto al nome dello script.
+
+## Utilizzo
+
+Una volta installato, lo script si attiverà automaticamente quando visiterai la pagina delle timbrature EVO su `https://personale-unibo.hrgpi.it/*`.
+
+1.  Naviga alla pagina delle timbrature (assicurati che sia la pagina "Cartellino").
+2.  Se hai installato anche l'altro script, vedrai il bottone "**Ora del Giorno**". Accanto a questo, troverai il nuovo bottone "**Ora 6h 11m**".
+3.  Clicca su "**Ora 6h 11m**" per visualizzare l'orario di uscita calcolato per il giorno corrente (per 6h 11m) nella tabella. L'orario apparirà accanto a quello già calcolato dall'altro script (se attivo) con l'indicazione `(6h11)`.
+
+## Contributi (Facoltativo)
+
+Se desideri contribuire a migliorare questo script, sentiti libero di aprire una "Issue" o proporre una "Pull Request" sul repository GitHub.
+
+## Log delle Versioni
+
+Per un riepilogo delle modifiche e delle funzionalità introdotte in ogni versione dello script, consulta il file [CHANGELOG.md](CHANGELOG.md) nel repository.
