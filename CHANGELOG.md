@@ -2,6 +2,15 @@
 
 ---
 
+**Versione 1.10**
+* **Data di Rilascio:** 18 Luglio 2025
+* **Autore:** Stefano
+* **Modifiche:** **Risoluzione conflitto di posizionamento con lo script principale.**
+    * La logica di posizionamento del bottone "6 ore e 11" è stata rivista per attendere che il bottone "Ora del Giorno" dello script principale si sia stabilizzato nella sua posizione finale (accanto ad "Aggiorna") prima di posizionarsi definitivamente.
+    * Aggiunti messaggi di log più dettagliati (`SUCCESS`, `FALLBACK`, `DEBUG`, `INFO`, `TIMEOUT`, `ERRORE`) per una diagnosi più precisa dello stato di posizionamento.
+
+---
+
 **Versione 1.09**
 * **Data di Rilascio:** 18 Luglio 2025
 * **Autore:** Stefano
