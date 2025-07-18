@@ -2,6 +2,13 @@
 
 ---
 
+**Versione 1.06**
+* **Data di Rilascio:** 18 Luglio 2025
+* **Autore:** Stefano
+* **Modifiche:** **Migliorata la logica di posizionamento del bottone "6 ore e 11".** Se il bottone "Ora del Giorno" (dello script principale) non è presente, il bottone si posizionerà come fallback accanto al bottone "Aggiorna" di sistema, garantendo che sia sempre in una posizione visibile.
+
+---
+
 **Versione 1.05**
 * **Data di Rilascio:** 18 Luglio 2025
 * **Autore:** Stefano
