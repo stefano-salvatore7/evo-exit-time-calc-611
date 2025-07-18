@@ -2,6 +2,15 @@
 
 ---
 
+**Versione 1.09**
+* **Data di Rilascio:** 18 Luglio 2025
+* **Autore:** Stefano
+* **Modifiche:** **Migliorata la robustezza del posizionamento e la diagnostica.**
+    * Aumentato il tempo massimo di attesa per il posizionamento del bottone da 15 a 30 secondi per accogliere caricamenti di pagina più lenti.
+    * Aggiunti messaggi di log più dettagliati nella console degli sviluppatori (`DEBUG`, `FALLBACK`, `SUCCESS`, `INFO`, `TIMEOUT`) per aiutare a diagnosticare i problemi di posizionamento in tempo reale.
+
+---
+
 **Versione 1.08**
 * **Data di Rilascio:** 18 Luglio 2025
 * **Autore:** Stefano
