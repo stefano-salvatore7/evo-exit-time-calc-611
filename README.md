@@ -1,15 +1,15 @@
 # EVO Exit Time Calculator (6h 11m)
 
-Questo script Tampermonkey/Greasemonkey è una versione complementare dell'EVO Exit Time Calculator, specificamente progettata per calcolare l'orario di uscita basandosi su un monte ore di **6 ore e 11 minuti** giornaliere. È destinato al sistema di gestione delle presenze EVO (usato su `https://personale-unibo.hrgpi.it/`). Calcola automaticamente l'orario di uscita previsto per la giornata corrente, tenendo conto delle timbrature e dell'eventuale pausa.
+Questo script Tampermonkey/Greasemonkey è una versione complementare dell'EVO Exit Time Calculator, specificamente progettata per calcolare l'orario di uscita basandosi su un monte ore di **6 ore e 11 minuti** giornaliere. È destinato al sistema di gestione delle presenze EVO (usato su `https://personale-unibo.hrgpi.it/`). Calcola automaticamente l'orario di uscita previsto per la giornata corrente, considerando che le 6h 11m rappresentano il **tempo totale (lordo) dal timbro di entrata al timbro di uscita**, inclusa qualsiasi pausa.
 
-**(Versione Script: 1.00)**
+**(Versione Script: 1.02)**
 
 ## Caratteristiche
 
-* **Calcolo Orario di Uscita (6h 11m):** Determina l'orario di uscita necessario per completare le **6 ore e 11 minuti** di lavoro (371 minuti totali).
+* **Calcolo Orario di Uscita (6h 11m):** Determina l'orario di uscita necessario per completare le **6 ore e 11 minuti** di presenza totale (371 minuti), dove questa durata include eventuali pause.
 * **Gestione Timbrature Flessibile:** Supporta sia il formato standard `E HH:mm` / `U HH:mm` che il formato "Telelavoro" `E[HH:mm]` / `U[HH:mm]`.
-* **Gestione Pausa Pranzo:** Calcola e include nel totale lavorato la durata della pausa pranzo (ultima "U" seguita dalla prima "E"). Aggiunge una pausa predefinita di 10 minuti se non rilevata o troppo breve (utilizza il valore maggiore tra la pausa effettiva e i 10 minuti).
-* **Visualizzazione Chiarificata:** Inserisce l'orario calcolato nella tabella delle timbrature del giorno, affiancato all'orario per le 7h 12m (se l'altro script è attivo), con un'etichetta `(6h11)` e un colore diverso.
+* **Gestione Pausa Pranzo (per info):** Rileva e calcola la durata della pausa pranzo (ultima "U" seguita dalla prima "E"). Aggiunge una pausa predefinita di 10 minuti se non rilevata o troppo breve. **Questa pausa viene mostrata nel tooltip per informazione, ma non viene aggiunta al calcolo delle 6h 11m**, poiché tale monte ore è inteso come tempo lordo già comprensivo di pausa.
+* **Iniezione Diretta e Sovrascrittura:** Inserisce l'orario calcolato direttamente nella tabella delle timbrature del giorno (in viola), **sovrascrivendo qualsiasi orario precedentemente visualizzato** da questo script o dall'EVO Exit Time Calculator (principale).
 * **Posizionamento Intuitivo:** Il bottone "**Ora 6h 11m**" è posizionato strategicamente accanto al bottone "**Ora del Giorno**" (dell'altro script, se presente).
 * **Apparizione Condizionale:** Il bottone appare **esclusivamente sulla pagina "Cartellino"** per garantire il corretto funzionamento e evitare la comparsa su altre sezioni del portale EVO.
 
@@ -71,7 +71,7 @@ Una volta installato, lo script si attiverà automaticamente quando visiterai la
 
 1.  Naviga alla pagina delle timbrature (assicurati che sia la pagina "Cartellino").
 2.  Se hai installato anche l'altro script, vedrai il bottone "**Ora del Giorno**". Accanto a questo, troverai il nuovo bottone "**Ora 6h 11m**".
-3.  Clicca su "**Ora 6h 11m**" per visualizzare l'orario di uscita calcolato per il giorno corrente (per 6h 11m) nella tabella. L'orario apparirà accanto a quello già calcolato dall'altro script (se attivo) con l'indicazione `(6h11)`.
+3.  Clicca su "**Ora 6h 11m**" per visualizzare l'orario di uscita calcolato per il giorno corrente (per 6h 11m) nella tabella. Verrà visualizzato solo questo orario in viola. Se un orario calcolato per 7h 12m era presente, verrà sostituito.
 
 ## Contributi (Facoltativo)
 
@@ -80,3 +80,7 @@ Se desideri contribuire a migliorare questo script, sentiti libero di aprire una
 ## Log delle Versioni
 
 Per un riepilogo delle modifiche e delle funzionalità introdotte in ogni versione dello script, consulta il file [CHANGELOG.md](CHANGELOG.md) nel repository.
+
+---
+
+*Sviluppato da Stefano con l'assistenza di Gemini.*
