@@ -2,7 +2,7 @@
 
 Questo script Tampermonkey/Greasemonkey è una versione complementare dell'EVO Exit Time Calculator, specificamente progettata per calcolare l'orario di uscita basandosi su un monte ore di **6 ore e 1 minuto di lavoro netto**, a cui viene aggiunta la pausa. È destinato al sistema di gestione delle presenze EVO (usato su `https://personale-unibo.hrgpi.it/`). Calcola automaticamente l'orario di uscita previsto per la giornata corrente.
 
-**(Versione Script: 1.07)**
+**(Versione Script: 1.08)**
 
 ## Caratteristiche
 
@@ -13,8 +13,8 @@ Questo script Tampermonkey/Greasemonkey è una versione complementare dell'EVO E
 * **Gestione Timbrature Flessibile:** Supporta sia il formato standard `E HH:mm` / `U HH:mm` che il formato "Telelavoro" `E[HH:mm]` / `U[HH:mm]`.
 * **Iniezione Diretta e Sovrascrittura con Stile:** Inserisce l'orario calcolato direttamente nella tabella delle timbrature del giorno, **visualizzandolo come una "pillola" con sfondo viola e testo bianco**, sovrascrivendo qualsiasi orario precedentemente visualizzato da questo script o dall'EVO Exit Time Calculator (principale).
 * **Posizionamento Intuitivo e Robusto (Più Rapido):** Il bottone "**6 ore e 11**" appare solo sulla pagina "Cartellino".
-    * Tenta di posizionarsi strategicamente accanto al bottone "**Ora del Giorno**" (se lo script principale è installato e attivo).
-    * Se il bottone "Ora del Giorno" non viene trovato entro 2 secondi, il bottone "**6 ore e 11**" si riposizionerà automaticamente accanto al bottone "**Aggiorna**" (quello di sistema) per garantire che sia sempre in una posizione comoda e visibile.
+    * Si posizionerà rapidamente accanto al bottone "**Aggiorna**" (quello di sistema) come posizione iniziale o fallback.
+    * Se il bottone "**Ora del Giorno**" (dello script principale) viene successivamente rilevato, il bottone "**6 ore e 11**" si sposterà automaticamente e si posizionerà accanto a quest'ultimo, garantendo la posizione preferita.
 * **Apparizione Condizionale:** Il bottone appare **esclusivamente sulla pagina "Cartellino"** per garantire il corretto funzionamento e evitare la comparsa su altre sezioni del portale EVO.
 
 ## Installazione e Aggiornamenti Automatici
@@ -73,7 +73,7 @@ Una volta installato tramite il link RAW, Tampermonkey dovrebbe gestire automati
 Una volta installato, lo script si attiverà automaticamente quando visiterai la pagina delle timbrature EVO su `https://personale-unibo.hrgpi.it/*`.
 
 1.  Naviga alla pagina delle timbrature (assicurati che sia la pagina "Cartellino").
-2.  Il bottone "**6 ore e 11**" apparirà accanto a "**Ora del Giorno**" (se presente) o accanto a "**Aggiorna**".
+2.  Il bottone "**6 ore e 11**" apparirà accanto a "**Aggiorna**" e, se presente, si sposterà accanto a "**Ora del Giorno**".
 3.  Clicca su "**6 ore e 11**" per visualizzare l'orario di uscita calcolato per il giorno corrente (per 6h 01m di netto + pausa) nella tabella. Verrà visualizzato solo questo orario in una "pillola" viola. Se un orario calcolato per 7h 12m era presente, verrà sostituito.
 
 ## Contributi (Facoltativo)
