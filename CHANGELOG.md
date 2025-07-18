@@ -2,6 +2,13 @@
 
 ---
 
+**Versione 1.07**
+* **Data di Rilascio:** 18 Luglio 2025
+* **Autore:** Stefano
+* **Modifiche:** **Velocizzato il posizionamento del bottone.** Ridotto l'intervallo di controllo da 500ms a 100ms. Il bottone "6 ore e 11" si riposizionerà accanto al bottone "Ora del Giorno" (o "Aggiorna" come fallback) molto più rapidamente (max 2 secondi).
+
+---
+
 **Versione 1.06**
 * **Data di Rilascio:** 18 Luglio 2025
 * **Autore:** Stefano
