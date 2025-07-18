@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name          EVO Exit Time Calculator (6h 11m)
 // @namespace     https://unibo.it/
-// @version       1.04
-// @description   Calcola e mostra l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 1 minuto di lavoro netto, a cui si aggiunge la pausa rilevata (o 10 minuti predefiniti). Sostituisce l'orario esistente nella cella. Il bottone "6 ore e 11" appare solo sulla pagina "Cartellino" accanto ad "Ora del Giorno".
+// @version       1.05
+// @description   Calcola e mostra l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 1 minuto di lavoro netto, a cui si aggiunge la pausa rilevata (o 10 minuti predefiniti). L'orario viene visualizzato in una "pillola" viola con testo bianco. Sostituisce l'orario esistente nella cella. Il bottone "6 ore e 11" appare solo sulla pagina "Cartellino" accanto ad "Ora del Giorno".
 // @author        Stefano
 // @match         https://personale-unibo.hrgpi.it/*
 // @grant         none
@@ -40,7 +40,7 @@
         event.stopPropagation();
         event.preventDefault(); 
 
-        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.04) ---"); // Modificato versione
+        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.05) ---"); // Modificato versione
         
         const oggi = new Date();
         const giornoOggi = String(oggi.getDate()); 
@@ -180,12 +180,23 @@
         const celle = righeDelGiorno[0].querySelectorAll("td");
         if (celle.length >= 8) {
             const cellaOrario = celle[7]; 
-            // Sovrascrivi il contenuto
-            cellaOrario.textContent = uscitaPrevista; 
-            cellaOrario.style.color = "purple"; 
-            cellaOrario.style.fontWeight = "bold"; 
+            // MODIFICA QUI: Crea un <span> e applica gli stili del "bottone"
+            cellaOrario.innerHTML = ''; // Pulisci la cella
+            const displaySpan = document.createElement('span');
+            displaySpan.textContent = uscitaPrevista;
+            
+            Object.assign(displaySpan.style, {
+                backgroundColor: "#8c00b0", // Sfondo viola
+                color: "white",             // Testo bianco
+                padding: "5px 10px",        // Padding
+                borderRadius: "4px",        // Bordi arrotondati
+                fontWeight: "bold",
+                display: "inline-block"     // Permette padding e margini
+            });
+
+            cellaOrario.appendChild(displaySpan);
             cellaOrario.title = `Entrata: ${entrataIniziale} + ${MINUTI_LAVORATIVI_NETTI_6H_01M} minuti (netti) + ${pausaConsiderata} minuti (pausa) = ${uscitaPrevista}`;
-            console.log(`Orario ${uscitaPrevista} (6h 11m) inserito nella cella.`);
+            console.log(`Orario ${uscitaPrevista} (6h 11m) inserito nella cella con stile "bottone" viola.`);
         } else {
             console.warn("⚠️ Non ci sono abbastanza celle nella prima riga per inserire l'orario di uscita (6h 11m).");
         }
@@ -205,7 +216,7 @@
             clearInterval(waitForPageElements); 
 
             calcolaSeiUndiciButton = document.createElement("button");
-            calcolaSeiUndiciButton.textContent = "6 ore e 11"; // MODIFICATO QUI: Testo del bottone
+            calcolaSeiUndiciButton.textContent = "6 ore e 11"; // TESTO DEL BOTTONE MODIFICATO QUI
             
             Object.assign(calcolaSeiUndiciButton.style, {
                 padding: "10px",
