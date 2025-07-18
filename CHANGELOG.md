@@ -2,6 +2,13 @@
 
 ---
 
+**Versione 1.05**
+* **Data di Rilascio:** 18 Luglio 2025
+* **Autore:** Stefano
+* **Modifiche:** **Miglioramento visuale dell'orario calcolato nella cella.** L'orario viene ora visualizzato all'interno di una "pillola" con sfondo viola e testo bianco, per una maggiore leggibilità e coerenza visiva con i bottoni.
+
+---
+
 **Versione 1.04**
 * **Data di Rilascio:** 18 Luglio 2025
 * **Autore:** Stefano
