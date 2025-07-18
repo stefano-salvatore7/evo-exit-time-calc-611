@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          EVO Exit Time Calculator (6h 11m)
 // @namespace     https://unibo.it/
-// @version       1.08
+// @version       1.09
 // @description   Calcola e mostra l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 1 minuto di lavoro netto, a cui si aggiunge la pausa rilevata (o 10 minuti predefinite). L'orario viene visualizzato in una "pillola" viola con testo bianco. Sostituisce l'orario esistente nella cella. Il bottone "6 ore e 11" appare solo sulla pagina "Cartellino" e tenta di posizionarsi accanto ad "Ora del Giorno" o, in fallback, accanto ad "Aggiorna".
 // @author        Stefano
 // @match         https://personale-unibo.hrgpi.it/*
@@ -40,7 +40,7 @@
         event.stopPropagation();
         event.preventDefault(); 
 
-        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.08) ---"); // Modificato versione
+        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.09) ---"); // Modificato versione
         
         const oggi = new Date();
         const giornoOggi = String(oggi.getDate()); 
@@ -257,12 +257,12 @@
                     // Only remove/re-insert if it's not already correctly placed
                     if (calcolaSeiUndiciButton.parentNode !== oraDelGiornoButton.parentNode || calcolaSeiUndiciButton.previousElementSibling !== oraDelGiornoButton) {
                          oraDelGiornoButton.parentNode.insertBefore(calcolaSeiUndiciButton, oraDelGiornoButton.nextSibling);
-                        console.log("Bottone '6 ore e 11' riposizionato accanto al bottone 'Ora del Giorno'.");
+                        console.log("SUCCESS: Bottone '6 ore e 11' riposizionato accanto al bottone 'Ora del Giorno'. Posizionamento completato.");
                     } else {
-                        // console.log("Bottone '6 ore e 11' già correttamente posizionato accanto a 'Ora del Giorno'.");
+                        console.log("INFO: Bottone '6 ore e 11' già correttamente posizionato accanto a 'Ora del Giorno'. Posizionamento completato.");
                     }
                 } else {
-                    console.warn("Errore: Bottone '6 ore e 11' non ha un parentNode per il riposizionamento preferenziale.");
+                    console.warn("ERRORE: Bottone '6 ore e 11' non ha un parentNode per il riposizionamento preferenziale.");
                 }
                 clearInterval(positionInterval); // Successfully positioned, stop checking
                 calcolaSeiUndiciButton.onclick = calcolaPerSeiOreUndici; 
@@ -273,29 +273,29 @@
                     // Only move if not already next to updateButton or if it's still at the bottom
                     if (calcolaSeiUndiciButton.parentNode !== updateButton.parentNode || calcolaSeiUndiciButton.previousElementSibling !== updateButton) {
                         updateButton.parentNode.insertBefore(calcolaSeiUndiciButton, updateButton.nextSibling);
-                        console.log("Bottone '6 ore e 11' riposizionato accanto al bottone 'Aggiorna' (fallback temporaneo/iniziale).");
+                        console.log("FALLBACK: Bottone '6 ore e 11' riposizionato accanto al bottone 'Aggiorna'. (In attesa di 'Ora del Giorno').");
                     } else {
-                        // console.log("Bottone '6 ore e 11' già accanto ad 'Aggiorna', in attesa di 'Ora del Giorno'.");
+                        // console.log("INFO: Bottone '6 ore e 11' già accanto ad 'Aggiorna', in attesa di 'Ora del Giorno'.");
                     }
                 } else {
-                    console.warn("Errore: Bottone '6 ore e 11' non ha un parentNode per il riposizionamento fallback.");
+                    console.warn("ERRORE: Bottone '6 ore e 11' non ha un parentNode per il riposizionamento fallback.");
                 }
                 // Do NOT clearInterval here. Keep checking for oraDelGiornoButton.
                 calcolaSeiUndiciButton.onclick = calcolaPerSeiOreUndici; 
             } else {
                 // Neither preferred nor fallback button found yet. Keep retrying.
-                // console.log("Attesa per i bottoni di riferimento...");
+                console.log("DEBUG: Attesa per i bottoni di riferimento ('Ora del Giorno' e 'Aggiorna'). Nessuno trovato ancora.");
             }
         }, 100); // Check every 100ms
 
         // Add a final safety timeout in case something goes wrong and no button is found
-        // This will clear the interval after a longer period (e.g., 15 seconds)
+        // This will clear the interval after a longer period (e.g., 30 seconds)
         setTimeout(() => {
             if (positionInterval) {
                 clearInterval(positionInterval);
-                console.warn("Posizionamento bottone '6 ore e 11' timeout. Il bottone potrebbe rimanere nella posizione iniziale.");
+                console.warn("TIMEOUT: Posizionamento bottone '6 ore e 11' fallito dopo 30 secondi. Il bottone potrebbe rimanere nella posizione iniziale.");
             }
-        }, 15000); // 15 seconds max wait for anything to settle
+        }, 30000); // 30 seconds max wait for anything to settle
     }
 
 })();
