@@ -2,6 +2,13 @@
 
 ---
 
+**Versione 1.08**
+* **Data di Rilascio:** 18 Luglio 2025
+* **Autore:** Stefano
+* **Modifiche:** **Migliorata la robustezza e la velocità del posizionamento del bottone.** Il bottone "6 ore e 11" si posizionerà immediatamente accanto al bottone "Aggiorna" di sistema come fallback iniziale, e poi si sposterà accanto al bottone "Ora del Giorno" se quest'ultimo appare successivamente, garantendo una posizione corretta e rapida in tutti gli scenari.
+
+---
+
 **Versione 1.07**
 * **Data di Rilascio:** 18 Luglio 2025
 * **Autore:** Stefano
