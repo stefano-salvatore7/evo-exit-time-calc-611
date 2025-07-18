@@ -55,9 +55,8 @@ Per consentire l'esecuzione corretta dello script, potrebbero essere necessari a
 
 Ora che il tuo browser è configurato, puoi installare lo script:
 
-[**Clicca qui per installare/aggiornare EVO Exit Time Calculator (6h 11m)**](LINK_RAW_AL_TUO_NUOVO_SCRIPT_SU_GITHUB)
+[**Clicca qui per installare/aggiornare EVO Exit Time Calculator (6h 11m)**](https://github.com/stefano-salvatore7/evo-exit-time-calc-611/raw/refs/heads/main/evo-exit-time-calculator-611.user.js)
 
-* **Importante:** Sostituisci `LINK_RAW_AL_TUO_NUOVO_SCRIPT_SU_GITHUB` con l'URL RAW effettivo del file `evo-exit-time-calc-611.user.js` nel tuo nuovo repository.
 * Dopo aver cliccato, Tampermonkey (o Greasemonkey) ti mostrerà il codice dello script e ti chiederà di **"Installa"** (se è la prima volta) o **"Aggiorna"** (se stai aggiornando una versione precedente). Conferma l'azione.
 
 ### 4. Verifica Aggiornamenti Automatici (Tampermonkey)
@@ -84,3 +83,7 @@ Se desideri contribuire a migliorare questo script, sentiti libero di aprire una
 ## Log delle Versioni
 
 Per un riepilogo delle modifiche e delle funzionalità introdotte in ogni versione dello script, consulta il file [CHANGELOG.md](CHANGELOG.md) nel repository.
+
+---
+
+*Sviluppato da Stefano con l'assistenza di Gemini.*
