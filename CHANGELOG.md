@@ -2,6 +2,13 @@
 
 ---
 
+**Versione 1.04**
+* **Data di Rilascio:** 18 Luglio 2025
+* **Autore:** Stefano
+* **Modifiche:** Modificato il testo del bottone da "Ora 6h 11m" a "**6 ore e 11**" per una maggiore concisione.
+
+---
+
 **Versione 1.03**
 * **Data di Rilascio:** 18 Luglio 2025
 * **Autore:** Stefano
