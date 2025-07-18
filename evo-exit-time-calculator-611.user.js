@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name          EVO Exit Time Calculator (6h 11m)
 // @namespace     https://unibo.it/
-// @version       1.05
-// @description   Calcola e mostra l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 1 minuto di lavoro netto, a cui si aggiunge la pausa rilevata (o 10 minuti predefiniti). L'orario viene visualizzato in una "pillola" viola con testo bianco. Sostituisce l'orario esistente nella cella. Il bottone "6 ore e 11" appare solo sulla pagina "Cartellino" accanto ad "Ora del Giorno".
+// @version       1.06
+// @description   Calcola e mostra l'orario di uscita su Personale Unibo (Sistema EVO) per 6 ore e 1 minuto di lavoro netto, a cui si aggiunge la pausa rilevata (o 10 minuti predefiniti). L'orario viene visualizzato in una "pillola" viola con testo bianco. Sostituisce l'orario esistente nella cella. Il bottone "6 ore e 11" appare solo sulla pagina "Cartellino" e tenta di posizionarsi accanto ad "Ora del Giorno" o, in fallback, accanto ad "Aggiorna".
 // @author        Stefano
 // @match         https://personale-unibo.hrgpi.it/*
 // @grant         none
@@ -40,7 +40,7 @@
         event.stopPropagation();
         event.preventDefault(); 
 
-        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.05) ---"); // Modificato versione
+        console.log("--- Avvio calcolo per oggi (EVO Exit Time Calculator 6h 11m v1.06) ---"); // Modificato versione
         
         const oggi = new Date();
         const giornoOggi = String(oggi.getDate()); 
@@ -180,7 +180,7 @@
         const celle = righeDelGiorno[0].querySelectorAll("td");
         if (celle.length >= 8) {
             const cellaOrario = celle[7]; 
-            // MODIFICA QUI: Crea un <span> e applica gli stili del "bottone"
+            // Crea un <span> e applica gli stili del "bottone"
             cellaOrario.innerHTML = ''; // Pulisci la cella
             const displaySpan = document.createElement('span');
             displaySpan.textContent = uscitaPrevista;
@@ -216,7 +216,7 @@
             clearInterval(waitForPageElements); 
 
             calcolaSeiUndiciButton = document.createElement("button");
-            calcolaSeiUndiciButton.textContent = "6 ore e 11"; // TESTO DEL BOTTONE MODIFICATO QUI
+            calcolaSeiUndiciButton.textContent = "6 ore e 11"; 
             
             Object.assign(calcolaSeiUndiciButton.style, {
                 padding: "10px",
@@ -241,21 +241,47 @@
     }, 500); 
 
     function startPositioningSixElevenButton() {
+        let retryCount = 0;
+        const maxRetries = 20; // Tenta per 10 secondi (20 * 500ms)
+
         const waitForOraDelGiornoButton = setInterval(() => {
             const oraDelGiornoButton = Array.from(document.querySelectorAll('button')).find(btn => btn.textContent.includes('Ora del Giorno'));
-            
-            if (calcolaSeiUndiciButton && oraDelGiornoButton) {
-                clearInterval(waitForOraDelGiornoButton); 
+            const updateButton = document.getElementById("firstFocus"); // Bottone "Aggiorna" di fallback
 
-                if (calcolaSeiUndiciButton.parentNode) {
-                    calcolaSeiUndiciButton.parentNode.removeChild(calcolaSeiUndiciButton);
+            if (calcolaSeiUndiciButton) {
+                if (oraDelGiornoButton) {
+                    clearInterval(waitForOraDelGiornoButton); 
+
+                    if (calcolaSeiUndiciButton.parentNode) {
+                        oraDelGiornoButton.parentNode.insertBefore(calcolaSeiUndiciButton, oraDelGiornoButton.nextSibling);
+                        console.log("Bottone '6 ore e 11' riposizionato accanto al bottone 'Ora del Giorno'.");
+                    } else {
+                         // Should not happen, but for robustness
+                        console.warn("Errore: Bottone '6 ore e 11' non ha un parentNode per il riposizionamento.");
+                    }
+                    calcolaSeiUndiciButton.onclick = calcolaPerSeiOreUndici;
+                } else if (retryCount >= maxRetries) {
+                    clearInterval(waitForOraDelGiornoButton);
+                    console.warn("Bottone 'Ora del Giorno' non trovato dopo tentativi. Tentativo di riposizionamento accanto ad 'Aggiorna'.");
+
+                    if (updateButton) {
+                        if (calcolaSeiUndiciButton.parentNode) {
+                            updateButton.parentNode.insertBefore(calcolaSeiUndiciButton, updateButton.nextSibling);
+                            console.log("Bottone '6 ore e 11' riposizionato accanto al bottone 'Aggiorna' (fallback).");
+                        } else {
+                            console.warn("Errore: Bottone '6 ore e 11' non ha un parentNode per il riposizionamento di fallback.");
+                        }
+                    } else {
+                        console.warn("⚠️ Bottone 'Aggiorna' (firstFocus) non trovato. Bottone '6 ore e 11' rimarrà nella posizione iniziale.");
+                    }
+                    calcolaSeiUndiciButton.onclick = calcolaPerSeiOreUndici; // Ricollega handler
+                } else {
+                    retryCount++;
+                    // console.log(`Tentativo ${retryCount}/${maxRetries}: Attesa bottone 'Ora del Giorno' per '6 ore e 11'.`);
                 }
-
-                oraDelGiornoButton.parentNode.insertBefore(calcolaSeiUndiciButton, oraDelGiornoButton.nextSibling);
-                console.log("Bottone '6 ore e 11' riposizionato accanto al bottone 'Ora del Giorno'.");
-                
-                calcolaSeiUndiciButton.onclick = calcolaPerSeiOreUndici;
-                console.log("Evento onclick ricollegato al bottone dopo il riposizionamento.");
+            } else {
+                clearInterval(waitForOraDelGiornoButton); // Button disappeared, clear interval
+                console.warn("Bottone '6 ore e 11' non trovato, interrompo il posizionamento.");
             }
         }, 500); 
     }
